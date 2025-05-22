@@ -4,23 +4,35 @@ import java.util.Stack;
 import java.util.Queue;
 import java.util.LinkedList;
 
+/**
+ * Clase EstructurasDeDatos: Proporciona las estructuras de datos básicas
+ * (pilas y fila) utilizadas en el proceso de compilación para BabyDuck,
+ * así como la definición del Cuádruplo.
+ *
+ * NOTA: La lógica de generación de cuádruplos y el manejo de temporales
+ * ha sido movida a la clase GeneradorCuadruplos.
+ */
 public class EstructurasDeDatos {
 
-    // Pilas para operadores, operandos y tipos
+    // Pilas para operadores, operandos (que ahora serán direcciones virtuales) y tipos
+    // Los operandos se mantendrán como String para almacenar las direcciones virtuales convertidas.
     private Stack<String> operadores;
-    private Stack<String> operandos;
+    private Stack<String> operandos; // Almacenará direcciones virtuales (como String)
     private Stack<String> tipos;
 
     // Fila para cuádruplos
     private Queue<Cuadruplo> cuadruplos;
-    private int tempCount; // Contador para variables temporales
 
-    // Clase interna para representar un cuádruplo
+    /**
+     * Clase interna Cuadruplo: Representa una instrucción de código intermedio.
+     * Los operandos y el resultado ahora almacenan direcciones virtuales
+     * (representadas como Strings para flexibilidad).
+     */
     public static class Cuadruplo {
         private String operador;
-        private String operandoIzquierdo;
-        private String operandoDerecho;
-        private String resultado;
+        private String operandoIzquierdo; // Dirección virtual (como String)
+        private String operandoDerecho;  // Dirección virtual (como String)
+        private String resultado;        // Dirección virtual (como String)
 
         public Cuadruplo(String operador, String operandoIzquierdo, String operandoDerecho, String resultado) {
             this.operador = operador;
@@ -48,20 +60,26 @@ public class EstructurasDeDatos {
 
         @Override
         public String toString() {
-            return "(" + operador + ", " + operandoIzquierdo + ", " + operandoDerecho + ", " + resultado + ")";
+            // Asegura que "null" se imprima como tal para operandos vacíos
+            String left = (operandoIzquierdo == null) ? "null" : operandoIzquierdo;
+            String right = (operandoDerecho == null) ? "null" : operandoDerecho;
+            String res = (resultado == null) ? "null" : resultado;
+            return "(" + operador + ", " + left + ", " + right + ", " + res + ")";
         }
     }
 
-    // Constructor de la clase EstructurasDeDatos
+    /**
+     * Constructor de la clase EstructurasDeDatos.
+     * Inicializa las pilas y la fila de cuádruplos.
+     */
     public EstructurasDeDatos() {
         this.operadores = new Stack<>();
         this.operandos = new Stack<>();
         this.tipos = new Stack<>();
         this.cuadruplos = new LinkedList<>();
-        this.tempCount = 0;
     }
 
-    // Métodos para la pila de operadores
+    // --- Métodos para la pila de operadores ---
     public void pushOperador(String operador) {
         this.operadores.push(operador);
     }
@@ -70,6 +88,9 @@ public class EstructurasDeDatos {
         if (!this.operadores.isEmpty()) {
             return this.operadores.pop();
         } else {
+            // Considera lanzar una excepción o manejar el error de otra forma
+            // si un pop en pila vacía no es un escenario esperado.
+            System.err.println("Advertencia: Intentando pop en pila de operadores vacía.");
             return null;
         }
     }
@@ -87,20 +108,21 @@ public class EstructurasDeDatos {
     }
 
 
-    // Métodos para la pila de operandos
-    public void pushOperando(String operando) {
-        this.operandos.push(operando);
+    // --- Métodos para la pila de operandos (ahora direcciones virtuales como String) ---
+    public void pushOperando(String operandoDireccion) { // Renombrado para claridad
+        this.operandos.push(operandoDireccion);
     }
 
-    public String popOperando() {
+    public String popOperando() { // Devuelve la dirección como String
         if (!this.operandos.isEmpty()) {
             return this.operandos.pop();
         } else {
+            System.err.println("Advertencia: Intentando pop en pila de operandos vacía.");
             return null;
         }
     }
 
-    public String peekOperando() {
+    public String peekOperando() { // Devuelve la dirección como String
         if (!this.operandos.isEmpty()) {
             return this.operandos.peek();
         } else {
@@ -112,7 +134,7 @@ public class EstructurasDeDatos {
         return this.operandos.isEmpty();
     }
 
-    // Métodos para la pila de tipos
+    // --- Métodos para la pila de tipos ---
     public void pushTipo(String tipo) {
         this.tipos.push(tipo);
     }
@@ -121,6 +143,7 @@ public class EstructurasDeDatos {
         if (!this.tipos.isEmpty()) {
             return this.tipos.pop();
         } else {
+            System.err.println("Advertencia: Intentando pop en pila de tipos vacía.");
             return null;
         }
     }
@@ -137,7 +160,7 @@ public class EstructurasDeDatos {
         return this.tipos.isEmpty();
     }
 
-    // Métodos para la fila de cuádruplos
+    // --- Métodos para la fila de cuádruplos ---
     public void agregarCuadruplo(String operador, String operandoIzquierdo, String operandoDerecho, String resultado) {
         this.cuadruplos.add(new Cuadruplo(operador, operandoIzquierdo, operandoDerecho, resultado));
     }
@@ -159,76 +182,33 @@ public class EstructurasDeDatos {
     }
 
     public void imprimirCuadruplos() {
+        if (this.cuadruplos.isEmpty()) {
+            System.out.println("No hay cuádruplos para desplegar.");
+            return;
+        }
         System.out.println("Cuádruplos:");
         for (Cuadruplo cuadruplo : this.cuadruplos) {
             System.out.println(cuadruplo);
         }
     }
 
-    // Método para generar una variable temporal
-    private String generarTemp() {
-        tempCount++;
-        return "temp" + tempCount;
-    }
-
-    // Métodos para generar cuádruplos para expresiones aritméticas
-    public void generarCuadruploAritmetico() {
-        String operador = popOperador();
-        String operandoDerecho = popOperando();
-        String operandoIzquierdo = popOperando();
-        popTipo(); // Ignoramos el tipo por ahora, pero debería usarse para validación
-        popTipo(); // Ignoramos el tipo por ahora, pero debería usarse para validación
-        String resultado = generarTemp();
-        agregarCuadruplo(operador, operandoIzquierdo, operandoDerecho, resultado);
-        pushOperando(resultado);
-        pushTipo("INT"); // Suponemos que el resultado es INT, ¡pero esto es importante validarlo!
-    }
-
-    // Métodos para generar cuádruplos para expresiones relacionales
-    public void generarCuadruploRelacional() {
-        String operador = popOperador();
-        String operandoDerecho = popOperando();
-        String operandoIzquierdo = popOperando();
-        popTipo(); // Ignoramos el tipo por ahora, pero debería usarse para validación
-        popTipo(); // Ignoramos el tipo por ahora, pero debería usarse para validación
-        String resultado = generarTemp();
-        agregarCuadruplo(operador, operandoIzquierdo, operandoDerecho, resultado);
-        pushOperando(resultado);
-        pushTipo("BOOLEAN"); // El resultado de una comparación es BOOLEAN
-    }
-
-    // Método para generar cuádruplo de asignación
-    public void generarCuadruploAsignacion(String variable, String valor) {
-        agregarCuadruplo("=", valor, null, variable);
-    }
-
+    // --- El método main para pruebas se elimina o se deja muy básico ---
+    // La lógica principal de generación de cuádruplos y asignación de direcciones
+    // ahora reside en GeneradorCuadruplos.java.
     public static void main(String[] args) {
-        // Ejemplo de uso para Baby Duck
-        EstructurasDeDatos estructuras = new EstructurasDeDatos();
+        System.out.println("Clase EstructurasDeDatos: Solo para la gestión de pilas y la fila de cuádruplos.");
+        System.out.println("La lógica de generación de cuádruplos y direcciones virtuales reside en GeneradorCuadruplos.java.");
 
-        // Expresión aritmética: x = a + b * c
-        estructuras.pushOperando("a");
-        estructuras.pushTipo("INT");
-        estructuras.pushOperando("b");
-        estructuras.pushTipo("INT");
-        estructuras.pushOperador("*");
-        estructuras.generarCuadruploAritmetico(); // temp1 = b * c
-        estructuras.pushOperando("c");
-        estructuras.pushTipo("INT");
-        estructuras.pushOperador("+");
-        estructuras.generarCuadruploAritmetico(); // temp2 = a + temp1
-        estructuras.generarCuadruploAsignacion("x", estructuras.popOperando()); // x = temp2
+        // Ejemplo muy básico para probar las pilas individualmente si se desea
+        EstructurasDeDatos eds = new EstructurasDeDatos();
+        eds.pushOperador("+");
+        eds.pushOperando("1000"); // Simula una dirección virtual
+        eds.pushTipo("INT");
+        System.out.println("Operador peek: " + eds.peekOperador());
+        System.out.println("Operando peek: " + eds.peekOperando());
+        System.out.println("Tipo peek: " + eds.peekTipo());
 
-        // Expresión relacional: y = a > b
-        estructuras.pushOperando("a");
-        estructuras.pushTipo("INT");
-        estructuras.pushOperando("b");
-        estructuras.pushTipo("INT");
-        estructuras.pushOperador(">");
-        estructuras.generarCuadruploRelacional(); // temp3 = a > b
-        estructuras.generarCuadruploAsignacion("y", estructuras.popOperando()); // y = temp3
-
-        estructuras.imprimirCuadruplos();
+        eds.agregarCuadruplo("=", "1000", null, "4000"); // Simula un cuádruplo
+        eds.imprimirCuadruplos();
     }
 }
-
