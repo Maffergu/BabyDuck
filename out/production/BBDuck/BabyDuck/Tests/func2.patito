@@ -1,0 +1,9 @@
+program p;
+void suma(a : int, b : float) [
+  {
+    print("suma");
+  }
+] ;
+main {
+}
+end

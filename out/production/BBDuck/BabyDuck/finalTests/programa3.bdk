@@ -1,0 +1,15 @@
+program prueba_funcion;
+var a : int;
+
+void saludar() [
+    {
+        print("Hola desde la función");
+    }
+];
+
+main {
+    a = 1;
+    saludar();
+    print(a);
+}
+end

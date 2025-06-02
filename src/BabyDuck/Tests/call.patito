@@ -1,0 +1,9 @@
+program p;
+void suma(a : int, b : float) [
+  {
+  }
+] ;
+main {
+  suma(3, 2.5);
+}
+end

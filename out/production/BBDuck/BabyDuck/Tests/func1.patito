@@ -1,0 +1,10 @@
+program p;
+void inicio ( ) [
+  var x : int;
+  {
+    x = 5;
+  }
+] ;
+main {
+}
+end

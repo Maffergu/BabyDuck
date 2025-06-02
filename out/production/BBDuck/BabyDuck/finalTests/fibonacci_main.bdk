@@ -1,0 +1,18 @@
+program fibonacci_main;
+var n, i, a, b, temp : int;
+
+main {
+    n = 10;
+    a = 0;
+    b = 1;
+    i = 0;
+
+    while (i < n) do {
+        print(a);
+        temp = a + b;
+        a = b;
+        b = temp;
+        i = i + 1;
+    };
+}
+end

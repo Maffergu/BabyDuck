@@ -1,0 +1,7 @@
+program p;
+main {
+  if (x <= 5) {
+    print("error");
+  }
+}
+end

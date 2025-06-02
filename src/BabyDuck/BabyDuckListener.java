@@ -1,5 +1,5 @@
+// Generated from /Users/mafer/Documents/8vo/Aplicaciones Avanzadas/BBDuck/src/BabyDuck/BabyDuck.g4 by ANTLR 4.13.2
 package BabyDuck;
-// Generated from BabyDuck.g4 by ANTLR 4.13.2
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -18,26 +18,6 @@ public interface BabyDuckListener extends ParseTreeListener {
 	 */
 	void exitPrograma(BabyDuckParser.ProgramaContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link BabyDuckParser#funcs}.
-	 * @param ctx the parse tree
-	 */
-	void enterFuncs(BabyDuckParser.FuncsContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link BabyDuckParser#funcs}.
-	 * @param ctx the parse tree
-	 */
-	void exitFuncs(BabyDuckParser.FuncsContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link BabyDuckParser#main_func}.
-	 * @param ctx the parse tree
-	 */
-	void enterMain_func(BabyDuckParser.Main_funcContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link BabyDuckParser#main_func}.
-	 * @param ctx the parse tree
-	 */
-	void exitMain_func(BabyDuckParser.Main_funcContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link BabyDuckParser#vars}.
 	 * @param ctx the parse tree
 	 */
@@ -48,6 +28,16 @@ public interface BabyDuckListener extends ParseTreeListener {
 	 */
 	void exitVars(BabyDuckParser.VarsContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link BabyDuckParser#idList}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdList(BabyDuckParser.IdListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BabyDuckParser#idList}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdList(BabyDuckParser.IdListContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link BabyDuckParser#type}.
 	 * @param ctx the parse tree
 	 */
@@ -57,6 +47,26 @@ public interface BabyDuckListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitType(BabyDuckParser.TypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BabyDuckParser#funcs}.
+	 * @param ctx the parse tree
+	 */
+	void enterFuncs(BabyDuckParser.FuncsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BabyDuckParser#funcs}.
+	 * @param ctx the parse tree
+	 */
+	void exitFuncs(BabyDuckParser.FuncsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BabyDuckParser#func}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunc(BabyDuckParser.FuncContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BabyDuckParser#func}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunc(BabyDuckParser.FuncContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link BabyDuckParser#body}.
 	 * @param ctx the parse tree
@@ -87,6 +97,46 @@ public interface BabyDuckListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAssign(BabyDuckParser.AssignContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BabyDuckParser#condition}.
+	 * @param ctx the parse tree
+	 */
+	void enterCondition(BabyDuckParser.ConditionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BabyDuckParser#condition}.
+	 * @param ctx the parse tree
+	 */
+	void exitCondition(BabyDuckParser.ConditionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BabyDuckParser#cycle}.
+	 * @param ctx the parse tree
+	 */
+	void enterCycle(BabyDuckParser.CycleContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BabyDuckParser#cycle}.
+	 * @param ctx the parse tree
+	 */
+	void exitCycle(BabyDuckParser.CycleContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BabyDuckParser#fCall}.
+	 * @param ctx the parse tree
+	 */
+	void enterFCall(BabyDuckParser.FCallContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BabyDuckParser#fCall}.
+	 * @param ctx the parse tree
+	 */
+	void exitFCall(BabyDuckParser.FCallContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BabyDuckParser#print}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrint(BabyDuckParser.PrintContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BabyDuckParser#print}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrint(BabyDuckParser.PrintContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link BabyDuckParser#expresion}.
 	 * @param ctx the parse tree
@@ -128,43 +178,13 @@ public interface BabyDuckListener extends ParseTreeListener {
 	 */
 	void exitFactor(BabyDuckParser.FactorContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link BabyDuckParser#condition}.
+	 * Enter a parse tree produced by {@link BabyDuckParser#cte}.
 	 * @param ctx the parse tree
 	 */
-	void enterCondition(BabyDuckParser.ConditionContext ctx);
+	void enterCte(BabyDuckParser.CteContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link BabyDuckParser#condition}.
+	 * Exit a parse tree produced by {@link BabyDuckParser#cte}.
 	 * @param ctx the parse tree
 	 */
-	void exitCondition(BabyDuckParser.ConditionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link BabyDuckParser#cycle}.
-	 * @param ctx the parse tree
-	 */
-	void enterCycle(BabyDuckParser.CycleContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link BabyDuckParser#cycle}.
-	 * @param ctx the parse tree
-	 */
-	void exitCycle(BabyDuckParser.CycleContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link BabyDuckParser#fCall}.
-	 * @param ctx the parse tree
-	 */
-	void enterFCall(BabyDuckParser.FCallContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link BabyDuckParser#fCall}.
-	 * @param ctx the parse tree
-	 */
-	void exitFCall(BabyDuckParser.FCallContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link BabyDuckParser#print_stmt}.
-	 * @param ctx the parse tree
-	 */
-	void enterPrint_stmt(BabyDuckParser.Print_stmtContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link BabyDuckParser#print_stmt}.
-	 * @param ctx the parse tree
-	 */
-	void exitPrint_stmt(BabyDuckParser.Print_stmtContext ctx);
+	void exitCte(BabyDuckParser.CteContext ctx);
 }

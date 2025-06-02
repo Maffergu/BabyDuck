@@ -1,0 +1,9 @@
+program p;
+main {
+  if (x < 5) {
+    print("menor");
+  } else {
+    print("mayor");
+  }
+}
+end

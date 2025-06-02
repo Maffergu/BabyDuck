@@ -1,103 +1,71 @@
 grammar BabyDuck;
 
-// Palabras reservadas
-PROGRAM: 'program';
-MAIN: 'main';
-END: 'end';
-VAR: 'var';
-PRINT: 'print';
-INT: 'int';
-FLOAT: 'float';
-VOID: 'void';
-IF: 'if';
-ELSE: 'else';
-WHILE: 'while';
-DO: 'do';
+// Reglas léxicas (tokens)
+PROGRAM     : 'program';
+VAR         : 'var';
+INT         : 'int';
+FLOAT       : 'float';
+VOID        : 'void';
+MAIN        : 'main';
+END         : 'end';
+IF          : 'if';
+ELSE        : 'else';
+WHILE       : 'while';
+DO          : 'do';
+PRINT       : 'print';
+ASSIGN      : '=';
+SEMI        : ';';
+COLON       : ':';
+COMMA       : ',';
+LPAREN      : '(';
+RPAREN      : ')';
+LBRACE      : '{';
+RBRACE      : '}';
+LBRACKET    : '[';
+RBRACKET    : ']';
+PLUS        : '+';
+MINUS       : '-';
+MULT        : '*';
+DIV         : '/';
+NEQ         : '!=';
+LT          : '<';
+GT          : '>';
+LEQ         : '<=';
+GEQ         : '>=';
+CTE_INT     : [0-9]+;
+CTE_FLOAT   : [0-9]+ '.' [0-9]+;
+CTE_STRING  : '"' .*? '"';
+ID          : [a-zA-Z_][a-zA-Z0-9_]*;
+WS          : [ \t\r\n]+ -> skip;
 
-// Identificadores
-ID: [a-zA-Z_] [a-zA-Z0-9_]*;
+// Reglas sintácticas (simplificadas)
+programa    : PROGRAM ID SEMI vars funcs MAIN body END ;
+vars        : (VAR idList COLON type SEMI)* ;
+idList      : ID (COMMA ID)* ;
+type        : INT | FLOAT ;
+funcs       : (func)* ;
 
-// Constantes
-CTE_INT: [0-9]+;
-CTE_FLOAT: [0-9]+ '.' [0-9]+;
-CTE_STRING: '"' (~'"')* '"';
+func        : VOID ID LPAREN (ID COLON type (COMMA ID COLON type)*)? RPAREN LBRACKET vars body RBRACKET SEMI ;
 
-// Operadores
-SUMA: '+';
-RESTA: '-';
-MULT: '*';
-DIV: '/';
-MAYOR: '>';
-MENOR: '<';
-NOT_IGUAL: '!=';
-IGUAL: '=';
+body        : LBRACE statement* RBRACE ;
+statement   : assign
+            | condition
+            | cycle
+            | fCall
+            | print
+            ;
+assign      : ID ASSIGN expresion SEMI ;
+condition   : IF LPAREN expresion RPAREN body (ELSE body)? ;
+cycle       : WHILE LPAREN expresion RPAREN DO body SEMI ;
+fCall       :ID LPAREN (expresion (COMMA expresion)*)? RPAREN SEMI ;
+print       :PRINT LPAREN (expresion (COMMA expresion)*)? RPAREN SEMI ;
+expresion   : exp ( (NEQ | LT | GT | LEQ | GEQ) exp )? ;
+exp         : termino ( (PLUS | MINUS) termino )* ;
+termino     : factor ( (MULT | DIV) factor )* ;
+factor      : LPAREN expresion RPAREN
+                  | ID
+                  | cte
+                  ;
+cte         : CTE_INT | CTE_FLOAT | CTE_STRING ;
 
-// Puntuación
-PUNTO_COMA: ';';
-COMA: ',';
-PAREN_IZQ: '(';
-PAREN_DER: ')';
-LLAVE_IZQ: '{';
-LLAVE_DER: '}';
-DOS_PUNTOS: ':';
 
-// Whitespace (se ignora)
-WS: [ \t\r\n]+ -> skip;
-
-programa: PROGRAM ID PUNTO_COMA funcs main_func END
-         ;
-
-funcs: (VOID ID ID PAREN_IZQ expresion PAREN_DER vars PUNTO_COMA)*
-     ;
-
-main_func: MAIN body
-           ;
-
-vars: (VAR ID DOS_PUNTOS type PUNTO_COMA)*
-    ;
-
-type: INT
-    | FLOAT
-    ;
-
-body: LLAVE_IZQ statement* LLAVE_DER
-    ;
-
-statement: assign PUNTO_COMA
-         | condition
-         | cycle
-         | fCall PUNTO_COMA
-         | print_stmt PUNTO_COMA
-         ;
-
-assign: ID IGUAL expresion
-      ;
-
-expresion: exp (MAYOR exp | MENOR exp | NOT_IGUAL exp)?
-         ;
-
-exp: termino (SUMA termino | RESTA termino)*
-   ;
-
-termino: factor (MULT factor | DIV factor)*
-       ;
-
-factor: PAREN_IZQ expresion PAREN_DER
-      | ID
-      | CTE_INT
-      | CTE_FLOAT
-      | CTE_STRING
-      ;
-
-condition: IF PAREN_IZQ expresion PAREN_DER body (ELSE body)?
-         ;
-
-cycle: WHILE PAREN_IZQ expresion PAREN_DER body
-     | DO body WHILE PAREN_IZQ expresion PAREN_DER PUNTO_COMA
-     ;
-
-fCall: ID ID PAREN_IZQ expresion PAREN_DER
-     ;
-
-print_stmt: PRINT PAREN_IZQ expresion PAREN_DER
-          ;

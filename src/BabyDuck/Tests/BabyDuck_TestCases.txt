@@ -1,0 +1,155 @@
+// assign.patito
+program p;
+var x : int;
+main {
+  x = 10;
+}
+end
+
+// bad_assign.patito
+program p;
+var x : int;
+main {
+  x := 10;
+}
+end
+
+// bad_factor.patito
+program p;
+main {
+  x = x + y;
+}
+end
+
+// bad_func_def.patito
+program p;
+suma void (x : int) [
+  {
+  }
+] ;
+main {
+}
+end
+
+// base.patito
+program p;
+main {
+}
+end
+
+// call.patito
+program p;
+void suma(a : int, b : float) [
+  {
+  }
+] ;
+main {
+  suma(3, 2.5);
+}
+end
+
+// expr.patito
+program p;
+var x : int;
+main {
+  x = (x + 1) * 3 - 2;
+}
+end
+
+// extra_comma.patito
+program p;
+void f(x : int, y : float,) [
+  {
+  }
+] ;
+main {
+}
+end
+
+// func1.patito
+program p;
+void inicio ( ) [
+  var x : int;
+  {
+    x = 5;
+  }
+] ;
+main {
+}
+end
+
+// func2.patito
+program p;
+void suma(a : int, b : float) [
+  {
+    print("suma");
+  }
+] ;
+main {
+}
+end
+
+// ifelse.patito
+program p;
+main {
+  if (x < 5) {
+    print("menor");
+  } else {
+    print("mayor");
+  }
+}
+end
+
+// invalid_print.patito
+program p;
+main {
+  print "hola";
+}
+end
+
+// missing_end.patito
+program p;
+main {
+  print("falta end");
+}
+
+// missing_semicolon.patito
+program p;
+var x : int
+main {
+}
+end
+
+// print.patito
+program p;
+var x : int;
+main {
+  print("Valor:", x);
+}
+end
+
+// vars.patito
+program p;
+var x : int;
+    y : float;
+main {
+}
+end
+
+// while.patito
+program p;
+main {
+  while (x != 0) do {
+    x = x - 1;
+  } ;
+}
+end
+
+// wrong_op.patito
+program p;
+main {
+  if (x <= 5) {
+    print("error");
+  }
+}
+end
